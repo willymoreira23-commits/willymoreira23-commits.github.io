@@ -39,19 +39,23 @@ body.editing .photo-filename{ display:block; }
   margin-bottom:24px;
 }
 
-/* Listas de textos/músicas/vídeos em grid: 3 colunas fixas */
+/* Listas de textos/músicas/vídeos em grid: compacto, várias colunas lado a lado */
 #textos-list, #musicas-list, #videos-list{
   display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:8px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap:6px;
   margin-bottom:14px;
 }
 
-@media (max-width: 780px){
-  #textos-list, #musicas-list, #videos-list{ grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 600px){
+  #textos-list, #musicas-list, #videos-list{
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-@media (max-width: 480px){
-  #textos-list, #musicas-list, #videos-list{ grid-template-columns: 1fr; }
+@media (max-width: 380px){
+  #textos-list, #musicas-list, #videos-list{
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {
@@ -72,14 +76,17 @@ body.editing .photo-filename{ display:block; }
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-  padding:9px 12px;
+  gap:6px;
+  padding:7px 10px;
   cursor:pointer;
+  min-height:0;
 }
 .card-header:hover{ background: rgba(180,140,255,0.08); }
-.card-header h3{ margin:0; font-size:0.92rem; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.card-header h3{ margin:0; font-size:0.82rem; line-height:1.25; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
-.header-actions{ display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.header-actions{ display:flex; align-items:center; gap:4px; flex-shrink:0; }
+.toggle-btn{ padding:2px 4px; font-size:0.8rem; }
+.del-btn{ width:20px; height:20px; font-size:0.85rem; line-height:1; }
 
 .toggle-btn{
   background:none;
@@ -116,6 +123,7 @@ body.editing .add-btn{ display:inline-block; }
 .filename{ display:none; font-size:0.8rem; color:#9A968C; margin-top:6px; }
 body.editing .filename{ display:block; }
 
+/* Botão de escolher arquivo do computador (música, vídeo, foto) */
 .pick-file-btn{
   display:none;
   background:none;
@@ -131,6 +139,7 @@ body.editing .pick-file-btn{ display:inline-block; }
 .pick-file-btn:hover{ background: rgba(180,140,255,0.12); }
 .photo-pick-btn{ margin-top:10px; }
 
+/* Aviso pra lembrar de copiar o arquivo escolhido pra pasta do site */
 .file-hint{
   display:none;
   font-size:0.75rem;
