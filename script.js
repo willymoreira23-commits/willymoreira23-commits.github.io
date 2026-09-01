@@ -39,19 +39,6 @@ function desenhar() {
 }
 desenhar();
 
-// Contador de visitas: soma 1 toda vez que a página é carregada
-// e mostra o número total. Usa um serviço gratuito (counterapi.com),
-// sem precisar de servidor ou banco de dados próprio.
-(function(){
-  const contador = document.getElementById('visitor-count');
-  if(!contador) return;
-  const ns = 'willymoreira23-commits.github.io';
-  fetch('https://counterapi.com/api/' + ns + '/view/home')
-    .then(res => res.json())
-    .then(data => { contador.textContent = data.value; })
-    .catch(() => { contador.textContent = '?'; });
-})();
-
 const body = document.body;
 const fab = document.getElementById('editFab');
 const saveBtn = document.getElementById('saveBtn');
