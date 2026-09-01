@@ -39,6 +39,19 @@ function desenhar() {
 }
 desenhar();
 
+// Contador de visitas: soma 1 toda vez que a página é carregada
+// e mostra o número total. Usa um serviço gratuito (counterapi.com),
+// sem precisar de servidor ou banco de dados próprio.
+(function(){
+  const contador = document.getElementById('visitor-count');
+  if(!contador) return;
+  const ns = 'willymoreira23-commits.github.io';
+  fetch('https://counterapi.com/api/' + ns + '/view/home')
+    .then(res => res.json())
+    .then(data => { contador.textContent = data.value; })
+    .catch(() => { contador.textContent = '?'; });
+})();
+
 const body = document.body;
 const fab = document.getElementById('editFab');
 const saveBtn = document.getElementById('saveBtn');
@@ -74,7 +87,18 @@ function showFileHint(referenceEl, filename){
 
 function attachCard(card){
   const delBtn = card.querySelector('.del-btn');
-  if(delBtn) delBtn.addEventListener('click', () => card.remove());
+  if(delBtn) delBtn.addEventListener('click', (e) => { e.stopPropagation(); card.remove(); });
+
+  const header = card.querySelector('.card-header');
+  if(header){
+    header.addEventListener('click', (e) => {
+      // Não recolhe/expande se a pessoa estiver editando o título ou clicando no botão de apagar
+      if(body.classList.contains('editing') && e.target.closest('.editable')) return;
+      if(e.target.closest('.del-btn')) return;
+      card.classList.toggle('collapsed');
+      card.classList.toggle('expanded');
+    });
+  }
 
   const audio = card.querySelector('audio');
   const lyrics = card.querySelector('.lyrics');
@@ -150,6 +174,8 @@ if(photoPickBtn && photoInput){
 addTextoBtn.addEventListener('click', () => {
   const list = document.getElementById('textos-list');
   const clone = list.querySelector('.card').cloneNode(true);
+  clone.classList.remove('collapsed');
+  clone.classList.add('expanded');
   clone.querySelector('h3').textContent = 'Novo texto';
   clone.querySelector('p').textContent = 'Escreva aqui.';
   list.appendChild(clone);
@@ -161,6 +187,8 @@ addTextoBtn.addEventListener('click', () => {
 addMusicaBtn.addEventListener('click', () => {
   const list = document.getElementById('musicas-list');
   const clone = list.querySelector('.card').cloneNode(true);
+  clone.classList.remove('collapsed');
+  clone.classList.add('expanded');
   clone.querySelector('h3').textContent = 'Nova música';
   clone.querySelector('audio').removeAttribute('src');
   clone.querySelector('.filename').textContent = 'novamusica.mp3';
@@ -177,6 +205,8 @@ addMusicaBtn.addEventListener('click', () => {
 addVideoBtn.addEventListener('click', () => {
   const list = document.getElementById('videos-list');
   const clone = list.querySelector('.card').cloneNode(true);
+  clone.classList.remove('collapsed');
+  clone.classList.add('expanded');
   clone.querySelector('h3').textContent = 'Novo vídeo';
   clone.querySelector('video').removeAttribute('src');
   clone.querySelector('.filename').textContent = 'novovideo.mp4';
