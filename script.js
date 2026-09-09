@@ -155,9 +155,25 @@ function initEditingMode() {
   const fab = document.getElementById('editFab');
   const saveBtn = document.getElementById('saveBtn');
 
+  // Troque esse código pelo que você quiser. Só quem souber consegue
+  // abrir o modo de edição (isso é só pra afastar cliques de curiosos;
+  // não é uma senha forte, já que fica visível pra quem olhar o código-fonte).
+  const EDIT_CODE = 'willy2026';
+
   if (fab) {
     fab.addEventListener('click', () => {
-      const editing = !document.body.classList.contains('editing');
+      const isEditing = document.body.classList.contains('editing');
+
+      if (!isEditing) {
+        const codigo = prompt('Digite o código para editar o site:');
+        if (codigo === null) return; // cancelou
+        if (codigo.trim() !== EDIT_CODE) {
+          alert('Código incorreto.');
+          return;
+        }
+      }
+
+      const editing = !isEditing;
       document.body.classList.toggle('editing', editing);
       applyEditingState(editing);
     });
